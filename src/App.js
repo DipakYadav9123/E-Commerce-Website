@@ -83,7 +83,12 @@ function App() {
   return (
     <LoadingProvider>
       <CartProvider>
-        <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+        <BrowserRouter
+          future={{
+            v7_startTransition: true,
+            v7_relativeSplatPath: true
+          }}
+        >
           <div className="App">
             {/* Skip to main content link for accessibility */}
             <a href="#main-content" className="skip-link" id="skip-to-main">

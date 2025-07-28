@@ -81,22 +81,6 @@
   left: 100%;
 }
 
-.hero-content p {
-  font-size: 1.2rem;
-  margin-bottom: 2rem;
-  line-height: 1.8;
-}
-
-.hero-btn {
-  font-size: 1.1rem;
-  padding: 15px 30px;
-  background: #FFD700;
-  color: #8B4513;
-  border: none;
-  border-radius: 50px;
-  transition: all 0.3s ease;
-}
-
 .hero-btn:hover {
   background: #FFA500;
   transform: translateY(-2px);
