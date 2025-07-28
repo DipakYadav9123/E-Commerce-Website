@@ -1,0 +1,81 @@
+# Robots.txt for AyurvedaHerbs E-Commerce Website
+User-agent: *
+Allow: /
+
+# Allow all important pages
+Allow: /products
+Allow: /cart
+Allow: /contact
+Allow: /blog
+Allow: /offers
+Allow: /coming-soon
+
+# Disallow admin and private areas
+Disallow: /admin
+Disallow: /newsletter-admin
+Disallow: /checkout
+
+# Allow static assets
+Allow: /static/
+Allow: /*.js
+Allow: /*.css
+Allow: /*.png
+Allow: /*.jpg
+Allow: /*.svg
+Allow: /*.ico
+Allow: /*.woff
+Allow: /*.woff2
+
+# Sitemap location
+Sitemap: https://ayurvedaherbs.com/sitemap.xml
+Sitemap: https://ayurvedaherbs.netlify.app/sitemap.xml
+
+# Crawl delay (optional)
+Crawl-delay: 1
+
+# Specific rules for different bots
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Baiduspider
+Allow: /
+
+User-agent: YandexBot
+Allow: /
+
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+# Block bad bots
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: dotbot
+Disallow: /
+
+User-agent: rogerbot
+Disallow: /
+
+User-agent: Screaming Frog SEO Spider
+Disallow: / 

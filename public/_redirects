@@ -1,0 +1,29 @@
+# SPA Routing - Redirect all routes to index.html
+/*    /index.html   200
+
+# Force HTTPS
+http://ayurvedaherbs.netlify.app/* https://ayurvedaherbs.netlify.app/:splat 301!
+http://www.ayurvedaherbs.netlify.app/* https://ayurvedaherbs.netlify.app/:splat 301!
+
+# Custom domain redirects (replace with your actual domain)
+http://ayurvedaherbs.com/* https://ayurvedaherbs.com/:splat 301!
+http://www.ayurvedaherbs.com/* https://ayurvedaherbs.com/:splat 301!
+
+# Remove trailing slashes
+/*/  /:splat  301!
+
+# SEO redirects for old URLs (if any)
+/products/  /products  301!
+/cart/  /cart  301!
+/contact/  /contact  301!
+/blog/  /blog  301!
+
+# API redirects (if you have backend)
+/api/*  https://your-api-domain.com/api/:splat  200
+
+# Security headers
+/  /index.html  200
+  X-Frame-Options: DENY
+  X-XSS-Protection: 1; mode=block
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin 

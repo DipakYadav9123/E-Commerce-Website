@@ -1,0 +1,140 @@
+/* LazyImage Component Styles */
+
+.lazy-image-container {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--bg-tertiary);
+  border-radius: inherit;
+  transition: all var(--transition-normal);
+}
+
+/* Loading Spinner */
+.loading-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.spinner {
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--border-primary);
+  border-top: 2px solid var(--primary-color);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Placeholder Styles */
+.lazy-image-placeholder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--bg-tertiary) 0%, var(--bg-secondary) 100%);
+  color: var(--text-muted);
+  font-size: 14px;
+  transition: opacity var(--transition-normal);
+}
+
+/* Error State */
+.lazy-image-error {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-secondary);
+  color: var(--text-muted);
+  font-size: 14px;
+  text-align: center;
+  padding: 20px;
+  border: 1px dashed var(--border-primary);
+}
+
+/* Image Styles */
+.lazy-image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity var(--transition-normal);
+}
+
+.lazy-image-container img.loaded {
+  opacity: 1;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .spinner {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .lazy-image-placeholder,
+  .lazy-image-error {
+    font-size: 12px;
+    padding: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .spinner {
+    width: 18px;
+    height: 18px;
+  }
+  
+  .lazy-image-placeholder,
+  .lazy-image-error {
+    font-size: 11px;
+    padding: 10px;
+  }
+}
+
+/* Dark Theme Support */
+[data-theme="dark"] .lazy-image-container {
+  background-color: var(--bg-tertiary);
+}
+
+[data-theme="dark"] .lazy-image-placeholder {
+  background: linear-gradient(135deg, var(--bg-tertiary) 0%, var(--bg-secondary) 100%);
+  color: var(--text-muted);
+}
+
+[data-theme="dark"] .lazy-image-error {
+  background: var(--bg-secondary);
+  color: var(--text-muted);
+  border-color: var(--border-primary);
+}
+
+/* Focus states for accessibility */
+.lazy-image-container:focus-within {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+/* Print styles */
+@media print {
+  .lazy-image-placeholder,
+  .lazy-image-error {
+    display: none;
+  }
+  
+  .lazy-image-container img {
+    opacity: 1;
+  }
+} 

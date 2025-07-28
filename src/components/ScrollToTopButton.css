@@ -1,0 +1,169 @@
+/* Scroll to Top Button Styles */
+.scroll-to-top-container {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, #8B4513, #A0522D);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(139, 69, 19, 0.3);
+  z-index: 1000;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.scroll-to-top-container:hover {
+  box-shadow: 0 6px 20px rgba(139, 69, 19, 0.4);
+}
+
+/* Progress Circle */
+.progress-circle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.progress-svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.progress-bg {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.2);
+  stroke-width: 2;
+}
+
+.progress-fill {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.8);
+  stroke-width: 2;
+  stroke-linecap: round;
+  transition: stroke-dasharray 0.3s ease;
+}
+
+/* Arrow Icon */
+.arrow-icon {
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+  z-index: 2;
+  position: relative;
+}
+
+/* Tooltip */
+.tooltip {
+  position: absolute;
+  bottom: 70px;
+  right: 0;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.2s ease;
+}
+
+.tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  right: 20px;
+  border: 5px solid transparent;
+  border-top-color: rgba(0, 0, 0, 0.8);
+}
+
+/* Dark theme support */
+[data-theme="dark"] .scroll-to-top-container {
+  background: linear-gradient(135deg, #A0522D, #8B4513);
+  box-shadow: 0 4px 15px rgba(160, 82, 45, 0.3);
+}
+
+[data-theme="dark"] .scroll-to-top-container:hover {
+  box-shadow: 0 6px 20px rgba(160, 82, 45, 0.4);
+}
+
+[data-theme="dark"] .progress-bg {
+  stroke: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .progress-fill {
+  stroke: rgba(255, 255, 255, 0.9);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .scroll-to-top-container {
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+  }
+  
+  .arrow-icon {
+    font-size: 20px;
+  }
+  
+  .tooltip {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .scroll-to-top-container {
+    bottom: 15px;
+    right: 15px;
+    width: 45px;
+    height: 45px;
+  }
+  
+  .arrow-icon {
+    font-size: 18px;
+  }
+}
+
+/* Animation keyframes for additional effects */
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.scroll-to-top-container:hover .arrow-icon {
+  animation: pulse 1s ease-in-out infinite;
+}
+
+/* Accessibility */
+.scroll-to-top-container:focus {
+  outline: 2px solid #8B4513;
+  outline-offset: 2px;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .scroll-to-top-container,
+  .arrow-icon,
+  .tooltip {
+    transition: none;
+    animation: none;
+  }
+  
+  .scroll-to-top-container:hover .arrow-icon {
+    animation: none;
+  }
+} 

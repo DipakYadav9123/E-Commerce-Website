@@ -1,0 +1,480 @@
+/* Newsletter Component Styles */
+.newsletter-component {
+  width: 100%;
+}
+
+.newsletter-container {
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  border-radius: 15px;
+  padding: 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(139, 69, 19, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.newsletter-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #8B4513, #D2691E, #CD853F);
+}
+
+/* Newsletter Header */
+.newsletter-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.newsletter-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+  background: linear-gradient(135deg, #8B4513, #D2691E);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.newsletter-description {
+  color: #6c757d;
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+/* Subscriber Count */
+.subscriber-count {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(139, 69, 19, 0.1);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  color: #8B4513;
+  font-weight: 500;
+}
+
+.count-icon {
+  font-size: 1rem;
+}
+
+.count-text {
+  font-weight: 600;
+}
+
+/* Newsletter Form */
+.newsletter-form {
+  margin-bottom: 1.5rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.form-group {
+  position: relative;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: white;
+  color: #2c3e50;
+}
+
+.form-group input::placeholder {
+  color: #a0aec0;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #8B4513;
+  box-shadow: 0 0 0 3px rgba(139, 69, 19, 0.1);
+}
+
+.form-group input.error {
+  border-color: #dc3545;
+  box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1);
+}
+
+.form-group input:disabled {
+  background: #f8f9fa;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.error-message {
+  color: #dc3545;
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+  display: block;
+  font-weight: 500;
+}
+
+/* Subscribe Button */
+.subscribe-btn {
+  width: 100%;
+  padding: 0.875rem 1.5rem;
+  background: linear-gradient(135deg, #8B4513, #D2691E);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.subscribe-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(139, 69, 19, 0.3);
+}
+
+.subscribe-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.subscribe-btn.loading {
+  pointer-events: none;
+}
+
+.btn-icon {
+  font-size: 1.1rem;
+}
+
+/* Loading Spinner */
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid transparent;
+  border-top: 2px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Success State */
+.newsletter-success {
+  text-align: center;
+  padding: 2rem 1rem;
+}
+
+.success-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  animation: bounce 0.6s ease-in-out;
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(-5px);
+  }
+}
+
+.newsletter-success h5 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #28a745;
+  margin-bottom: 0.5rem;
+}
+
+.newsletter-success p {
+  color: #6c757d;
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+
+.reset-btn {
+  background: transparent;
+  color: #8B4513;
+  border: 2px solid #8B4513;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.reset-btn:hover {
+  background: #8B4513;
+  color: white;
+}
+
+/* Newsletter Benefits */
+.newsletter-benefits {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e9ecef;
+}
+
+.benefit-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  text-align: center;
+  color: #6c757d;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.benefit-icon {
+  font-size: 1.5rem;
+}
+
+/* Screen Reader Only */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .newsletter-container {
+    padding: 1.5rem;
+  }
+  
+  .newsletter-title {
+    font-size: 1.5rem;
+  }
+  
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .newsletter-benefits {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .benefit-item {
+    flex-direction: row;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .newsletter-container {
+    padding: 1rem;
+  }
+  
+  .newsletter-title {
+    font-size: 1.3rem;
+  }
+  
+  .newsletter-description {
+    font-size: 0.9rem;
+  }
+  
+  .subscribe-btn {
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+  }
+  
+  .subscriber-count {
+    font-size: 0.8rem;
+    padding: 0.4rem 0.8rem;
+  }
+}
+
+/* Dark Theme Support */
+@media (prefers-color-scheme: dark) {
+  .newsletter-container {
+    background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%);
+    border-color: rgba(139, 69, 19, 0.3);
+  }
+  
+  .newsletter-title {
+    color: #ffffff;
+  }
+  
+  .newsletter-description {
+    color: #b0b0b0;
+  }
+  
+  .form-group input {
+    background: #1a1a1a;
+    border-color: #404040;
+    color: #ffffff;
+  }
+  
+  .form-group input::placeholder {
+    color: #666666;
+  }
+  
+  .form-group input:disabled {
+    background: #2d2d2d;
+  }
+  
+  .subscriber-count {
+    background: rgba(139, 69, 19, 0.2);
+    color: #D2691E;
+  }
+  
+  .newsletter-benefits {
+    border-top-color: #404040;
+  }
+  
+  .benefit-item {
+    color: #b0b0b0;
+  }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  .newsletter-container {
+    border-width: 2px;
+  }
+  
+  .form-group input {
+    border-width: 2px;
+  }
+  
+  .subscribe-btn {
+    border: 2px solid #8B4513;
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .form-group input,
+  .subscribe-btn {
+    transition: none;
+  }
+  
+  .spinner {
+    animation: none;
+  }
+  
+  .success-icon {
+    animation: none;
+  }
+}
+
+/* Focus Styles for Accessibility */
+.form-group input:focus-visible {
+  outline: 2px solid #8B4513;
+  outline-offset: 2px;
+}
+
+.subscribe-btn:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 2px;
+}
+
+/* Print Styles */
+@media print {
+  .newsletter-container {
+    box-shadow: none;
+    border: 1px solid #000;
+  }
+  
+  .subscribe-btn {
+    background: #000;
+    color: #fff;
+  }
+}
+
+/* Newsletter Component Variants */
+.newsletter-component.compact .newsletter-container {
+  padding: 1.5rem;
+}
+
+.newsletter-component.compact .newsletter-title {
+  font-size: 1.3rem;
+}
+
+.newsletter-component.compact .form-row {
+  grid-template-columns: 1fr;
+}
+
+.newsletter-component.compact .newsletter-benefits {
+  display: none;
+}
+
+.newsletter-component.centered {
+  display: flex;
+  justify-content: center;
+}
+
+.newsletter-component.centered .newsletter-container {
+  max-width: 500px;
+}
+
+/* Newsletter Component with Background */
+.newsletter-component.with-bg {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  padding: 2rem;
+  border-radius: 15px;
+  margin: 2rem 0;
+}
+
+.newsletter-component.with-bg .newsletter-container {
+  background: white;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* Newsletter Component for Sidebar */
+.newsletter-component.sidebar {
+  position: sticky;
+  top: 2rem;
+}
+
+.newsletter-component.sidebar .newsletter-container {
+  padding: 1.5rem;
+}
+
+.newsletter-component.sidebar .newsletter-title {
+  font-size: 1.2rem;
+}
+
+.newsletter-component.sidebar .form-row {
+  grid-template-columns: 1fr;
+}
+
+.newsletter-component.sidebar .newsletter-benefits {
+  display: none;
+} 
