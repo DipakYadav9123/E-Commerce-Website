@@ -19,6 +19,7 @@ import LazyImage from './LazyImage';
 import ProductBadge from './ProductBadge';
 import { trackButtonClick, trackPageView } from '../utils/analytics';
 import './Home.css';
+import '../themes.css';
 
 const Home = () => {
   const { addToCart } = useCart();
