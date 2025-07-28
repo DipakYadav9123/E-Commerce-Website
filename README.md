@@ -10,7 +10,7 @@
 
 ## 🚀 Live Demo
 
-**[🌐 View Live Website](https://ayurvedaherbs.netlify.app)**
+**[🌐 View Live Website](https://dipakyadav9123.github.io/E-Commerce-Website/)**
 
 ## 📱 Mobile App
 
