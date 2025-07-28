@@ -3,7 +3,7 @@
 [![React](https://img.shields.io/badge/React-18.2.0-blue.svg)](https://reactjs.org/)
 [![React Router](https://img.shields.io/badge/React%20Router-6.8.0-green.svg)](https://reactrouter.com/)
 [![Framer Motion](https://img.shields.io/badge/Framer%20Motion-10.16.4-purple.svg)](https://www.framer.com/motion/)
-[![Netlify](https://img.shields.io/badge/Deployed%20on-Netlify-00C7B7.svg)](https://netlify.com/)
+[![GitHub Pages](https://img.shields.io/badge/Deployed%20on-GitHub%20Pages-181717.svg)](https://pages.github.com/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 > A modern, responsive e-commerce platform for Ayurvedic herbs and natural products, built with React.js and featuring advanced UI/UX, performance optimizations, and comprehensive analytics.

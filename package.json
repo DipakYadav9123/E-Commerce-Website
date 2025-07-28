@@ -6,17 +6,16 @@
   "homepage": "https://dipakyadav9123.github.io/E-Commerce-Website",
   "author": "AyurvedaHerbs Team",
   "license": "MIT",
-  "keywords": [
-    "ayurveda",
-    "herbal",
-    "ecommerce",
-    "react",
-    "pwa",
-    "seo",
-    "performance",
-    "netlify",
-    "vercel"
-  ],
+      "keywords": [
+      "ayurveda",
+      "herbal",
+      "ecommerce",
+      "react",
+      "pwa",
+      "seo",
+      "performance",
+      "github-pages"
+    ],
   "repository": {
     "type": "git",
     "url": "https://github.com/yourusername/ayurvedaherbs-ecommerce.git"
@@ -31,12 +30,11 @@
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
-    "deploy:preview": "netlify deploy --dir=build",
     "build:analyze": "npm run build && npx webpack-bundle-analyzer build/static/js/*.js",
     "lighthouse": "lighthouse http://localhost:3000 --output=html --output-path=./lighthouse-report.html",
     "test:performance": "npm run build && npm run lighthouse",
     "prebuild": "echo 'Building for production...'",
-    "postbuild": "echo 'Build completed successfully!' && echo 'Ready for deployment to Netlify/Vercel'",
+    "postbuild": "echo 'Build completed successfully!' && echo 'Ready for deployment to GitHub Pages'",
     "clean": "rm -rf build node_modules package-lock.json && npm install",
     "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
     "lint": "eslint src --ext .js,.jsx,.ts,.tsx",
