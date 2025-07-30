@@ -7,6 +7,181 @@ hamburger.addEventListener('click', () => {
     navMenu.classList.toggle('active');
 });
 
+// Wishlist Counter Initialization
+function initializeWishlistCounter() {
+    const wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+    const counters = document.querySelectorAll('.wishlist-counter');
+    
+    counters.forEach(counter => {
+        counter.textContent = wishlist.length;
+        counter.style.display = wishlist.length > 0 ? 'inline' : 'none';
+    });
+}
+
+// Theme Management
+let currentTheme = 'light';
+
+// Initialize theme on page load
+function initializeTheme() {
+    // Get saved theme from localStorage
+    const savedTheme = localStorage.getItem('fashionStoreTheme') || 'light';
+    setTheme(savedTheme);
+}
+
+// Set theme function
+function setTheme(theme) {
+    console.log('Setting theme to:', theme);
+    currentTheme = theme;
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('fashionStoreTheme', theme);
+    console.log('Theme applied to document:', document.documentElement.getAttribute('data-theme'));
+    
+    // Force immediate visual change
+    if (theme === 'dark') {
+        document.body.style.backgroundColor = '#121212';
+        document.body.style.color = '#ffffff';
+    } else {
+        document.body.style.backgroundColor = '#ffffff';
+        document.body.style.color = '#333333';
+    }
+    
+    // Update theme toggle button
+    updateThemeToggleButton();
+    console.log('Theme toggle button updated');
+}
+
+// Toggle theme function
+function toggleTheme() {
+    console.log('Toggle theme clicked! Current theme:', currentTheme);
+    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+    console.log('Switching to theme:', newTheme);
+    setTheme(newTheme);
+    console.log('Theme switched successfully');
+}
+
+// Update theme toggle button
+function updateThemeToggleButton() {
+    const themeToggle = document.querySelector('.theme-toggle-btn');
+    if (themeToggle) {
+        if (currentTheme === 'light') {
+            themeToggle.innerHTML = '🌙';
+            themeToggle.setAttribute('aria-label', 'Switch to dark mode');
+            themeToggle.title = 'Switch to dark mode';
+        } else {
+            themeToggle.innerHTML = '🌞';
+            themeToggle.setAttribute('aria-label', 'Switch to light mode');
+            themeToggle.title = 'Switch to light mode';
+        }
+    }
+}
+
+// Create theme toggle button
+function createThemeToggleButton() {
+    // Check if button already exists
+    if (document.querySelector('.theme-toggle-btn')) {
+        console.log('Theme toggle button already exists');
+        // Update button appearance
+        updateThemeToggleButton();
+        return;
+    }
+    
+    // Find the navbar container
+    const navContainer = document.querySelector('.nav-container');
+    if (!navContainer) {
+        console.log('Nav container not found');
+        return;
+    }
+    
+    // Create theme toggle button
+    const themeToggle = document.createElement('button');
+    themeToggle.className = 'theme-toggle-btn';
+    themeToggle.setAttribute('aria-label', 'Toggle theme');
+    themeToggle.addEventListener('click', toggleTheme);
+    
+    // Insert button before the hamburger menu
+    const hamburger = document.querySelector('.hamburger');
+    if (hamburger) {
+        hamburger.parentNode.insertBefore(themeToggle, hamburger);
+        console.log('Theme toggle button inserted before hamburger');
+    } else {
+        // If no hamburger, add to the end
+        navContainer.appendChild(themeToggle);
+        console.log('Theme toggle button added to nav container');
+    }
+    
+    // Update button appearance
+    updateThemeToggleButton();
+    console.log('Theme toggle button created successfully');
+}
+
+// Cart Counter Initialization
+function initializeCartCounter() {
+    const cart = JSON.parse(localStorage.getItem('fashionStoreCart') || '[]');
+    const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+    
+    // Update cart link in navbar
+    const cartLink = document.querySelector('.nav-link[href="cart.html"]');
+    if (cartLink) {
+        cartLink.innerHTML = `🛒 Cart (${totalItems})`;
+    }
+}
+
+// Scroll to Top Button
+function createScrollToTopButton() {
+    // Create the button element
+    const scrollButton = document.createElement('button');
+    scrollButton.className = 'scroll-to-top-btn';
+    scrollButton.innerHTML = '↑ Top';
+    scrollButton.setAttribute('aria-label', 'Scroll to top of page');
+    scrollButton.setAttribute('title', 'Scroll to top');
+    
+    // Add click event listener
+    scrollButton.addEventListener('click', function() {
+        // Smooth scroll to top
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+        
+        // Add click feedback
+        this.classList.add('clicked');
+        setTimeout(() => {
+            this.classList.remove('clicked');
+        }, 200);
+    });
+    
+    // Add to page
+    document.body.appendChild(scrollButton);
+    
+    return scrollButton;
+}
+
+// Show/hide scroll to top button based on scroll position
+function toggleScrollToTopButton() {
+    const scrollButton = document.querySelector('.scroll-to-top-btn');
+    if (!scrollButton) return;
+    
+    const scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+    
+    if (scrollPosition > 300) {
+        scrollButton.classList.add('show');
+    } else {
+        scrollButton.classList.remove('show');
+    }
+}
+
+// Initialize scroll to top functionality
+function initializeScrollToTop() {
+    // Create the button
+    createScrollToTopButton();
+    
+    // Add scroll event listener
+    window.addEventListener('scroll', toggleScrollToTopButton);
+    
+    // Initial check
+    toggleScrollToTopButton();
+}
+
 // Close mobile menu when clicking on a link
 document.querySelectorAll('.nav-link').forEach(n => n.addEventListener('click', () => {
     hamburger.classList.remove('active');
@@ -131,46 +306,41 @@ function getNewsletterEmails() {
 }
 
 function showNewsletterSuccess() {
-    // Create success message
-    const successMessage = document.createElement('div');
-    successMessage.className = 'newsletter-success';
-    successMessage.innerHTML = '✅ Thank you for subscribing to our newsletter!';
-    
-    // Add message to newsletter form
-    const newsletterForm = document.getElementById('newsletterForm');
-    if (newsletterForm) {
-        newsletterForm.appendChild(successMessage);
+    // Show success message in the message div
+    const messageDiv = document.getElementById('newsletterMessage');
+    if (messageDiv) {
+        messageDiv.textContent = '✅ Thank you for subscribing to our newsletter!';
+        messageDiv.className = 'newsletter-message success';
         
-        // Remove message after 3 seconds
+        // Auto-hide message after 5 seconds
         setTimeout(() => {
-            successMessage.remove();
-        }, 3000);
+            messageDiv.textContent = '';
+            messageDiv.className = 'newsletter-message';
+        }, 5000);
     }
 }
 
 function showNewsletterError() {
-    // Create error message
-    const errorMessage = document.createElement('div');
-    errorMessage.className = 'newsletter-error';
-    errorMessage.innerHTML = '❌ Please enter a valid email address or you are already subscribed.';
-    
-    // Add message to newsletter form
-    const newsletterForm = document.getElementById('newsletterForm');
-    if (newsletterForm) {
-        newsletterForm.appendChild(errorMessage);
+    // Show error message in the message div
+    const messageDiv = document.getElementById('newsletterMessage');
+    if (messageDiv) {
+        messageDiv.textContent = '❌ Please enter a valid email address or you are already subscribed.';
+        messageDiv.className = 'newsletter-message error';
         
-        // Remove message after 3 seconds
+        // Auto-hide message after 5 seconds
         setTimeout(() => {
-            errorMessage.remove();
-        }, 3000);
+            messageDiv.textContent = '';
+            messageDiv.className = 'newsletter-message';
+        }, 5000);
     }
 }
 
 function hideNewsletterError() {
-    // Remove any existing error messages
-    const errorMessage = document.querySelector('.newsletter-error');
-    if (errorMessage) {
-        errorMessage.remove();
+    // Clear any existing messages
+    const messageDiv = document.getElementById('newsletterMessage');
+    if (messageDiv) {
+        messageDiv.textContent = '';
+        messageDiv.className = 'newsletter-message';
     }
 }
 
@@ -305,7 +475,7 @@ function updateProductPrice(productCard, discountPercentage) {
     }
 }
 
-// Testimonial Slider System
+// Enhanced Testimonial Slider System
 function initializeTestimonialSlider() {
     const slides = document.querySelectorAll('.testimonial-slide');
     const prevBtn = document.querySelector('.prev-btn');
@@ -314,12 +484,16 @@ function initializeTestimonialSlider() {
     
     let currentSlide = 0;
     const totalSlides = slides.length;
+    let autoPlayInterval;
+    let isAutoPlaying = true;
     
     // Initialize slider
     function showSlide(index) {
-        // Hide all slides
+        // Hide all slides with fade animation
         slides.forEach(slide => {
             slide.classList.remove('active');
+            slide.style.opacity = '0';
+            slide.style.transform = 'translateX(20px)';
         });
         
         // Remove active class from all dots
@@ -327,11 +501,16 @@ function initializeTestimonialSlider() {
             dot.classList.remove('active');
         });
         
-        // Show current slide
+        // Show current slide with smooth animation
         slides[index].classList.add('active');
+        slides[index].style.opacity = '1';
+        slides[index].style.transform = 'translateX(0)';
         dots[index].classList.add('active');
         
         currentSlide = index;
+        
+        // Add visual feedback to buttons
+        updateButtonStates();
     }
     
     // Next slide function
@@ -346,26 +525,129 @@ function initializeTestimonialSlider() {
         showSlide(prevIndex);
     }
     
+    // Update button states
+    function updateButtonStates() {
+        if (prevBtn) {
+            prevBtn.disabled = currentSlide === 0;
+            prevBtn.style.opacity = currentSlide === 0 ? '0.5' : '1';
+        }
+        
+        if (nextBtn) {
+            nextBtn.disabled = currentSlide === totalSlides - 1;
+            nextBtn.style.opacity = currentSlide === totalSlides - 1 ? '0.5' : '1';
+        }
+    }
+    
+    // Start auto-play
+    function startAutoPlay() {
+        if (autoPlayInterval) clearInterval(autoPlayInterval);
+        autoPlayInterval = setInterval(nextSlide, 4000); // Change slide every 4 seconds
+        isAutoPlaying = true;
+    }
+    
+    // Stop auto-play
+    function stopAutoPlay() {
+        if (autoPlayInterval) {
+            clearInterval(autoPlayInterval);
+            autoPlayInterval = null;
+        }
+        isAutoPlaying = false;
+    }
+    
     // Add event listeners
     if (nextBtn) {
-        nextBtn.addEventListener('click', nextSlide);
+        nextBtn.addEventListener('click', () => {
+            nextSlide();
+            if (isAutoPlaying) {
+                stopAutoPlay();
+                startAutoPlay(); // Restart auto-play
+            }
+        });
     }
     
     if (prevBtn) {
-        prevBtn.addEventListener('click', prevSlide);
+        prevBtn.addEventListener('click', () => {
+            prevSlide();
+            if (isAutoPlaying) {
+                stopAutoPlay();
+                startAutoPlay(); // Restart auto-play
+            }
+        });
     }
     
     // Add dot click events
     dots.forEach((dot, index) => {
         dot.addEventListener('click', () => {
             showSlide(index);
+            if (isAutoPlaying) {
+                stopAutoPlay();
+                startAutoPlay(); // Restart auto-play
+            }
         });
     });
     
-    // Auto-play slider (optional)
-    setInterval(nextSlide, 5000); // Change slide every 5 seconds
+    // Pause auto-play on hover
+    const sliderContainer = document.querySelector('.testimonial-slider');
+    if (sliderContainer) {
+        sliderContainer.addEventListener('mouseenter', stopAutoPlay);
+        sliderContainer.addEventListener('mouseleave', startAutoPlay);
+    }
     
-    console.log('Testimonial slider initialized');
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') {
+            prevSlide();
+            if (isAutoPlaying) {
+                stopAutoPlay();
+                startAutoPlay();
+            }
+        } else if (e.key === 'ArrowRight') {
+            nextSlide();
+            if (isAutoPlaying) {
+                stopAutoPlay();
+                startAutoPlay();
+            }
+        }
+    });
+    
+    // Touch/swipe support for mobile
+    let touchStartX = 0;
+    let touchEndX = 0;
+    
+    sliderContainer.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+    });
+    
+    sliderContainer.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+    });
+    
+    function handleSwipe() {
+        const swipeThreshold = 50;
+        const diff = touchStartX - touchEndX;
+        
+        if (Math.abs(diff) > swipeThreshold) {
+            if (diff > 0) {
+                // Swipe left - next slide
+                nextSlide();
+            } else {
+                // Swipe right - previous slide
+                prevSlide();
+            }
+            
+            if (isAutoPlaying) {
+                stopAutoPlay();
+                startAutoPlay();
+            }
+        }
+    }
+    
+    // Initialize
+    showSlide(0);
+    startAutoPlay();
+    
+    console.log('Enhanced testimonial slider initialized with auto-play, keyboard navigation, and touch support');
 }
 
 // Reusable Navigation Components
@@ -1387,8 +1669,8 @@ function toggleBackToTopButton() {
     const backToTopBtn = document.querySelector('.back-to-top-btn');
     if (!backToTopBtn) return;
     
-    // Show button after scrolling 300px
-    if (window.pageYOffset > 300) {
+    // Show button after scrolling 400px
+    if (window.pageYOffset > 400) {
         backToTopBtn.classList.add('show');
     } else {
         backToTopBtn.classList.remove('show');
@@ -2303,74 +2585,7 @@ function addFloatingCSS() {
     document.head.appendChild(style);
 }
 
-// Scroll Animation System (Duplicate removed to fix class declaration error)
-
-// Lightweight Animation Utilities
-const ScrollAnimationUtils = {
-    // Initialize animations
-    init(options = {}) {
-        window.scrollAnimator = new ScrollAnimator(options);
-        return window.scrollAnimator;
-    },
-    
-    // Initialize staggered animations
-    initStaggered(options = {}) {
-        window.staggeredAnimator = new StaggeredScrollAnimator(options);
-        return window.staggeredAnimator;
-    },
-    
-    // Add animation class to element
-    addAnimationClass(element, animationClass) {
-        if (element) {
-            element.classList.add('scroll-animate', animationClass);
-            window.scrollAnimator?.observeElement(element);
-        }
-    },
-    
-    // Remove animation class from element
-    removeAnimationClass(element) {
-        if (element) {
-            element.classList.remove('scroll-animate', 'fade-in');
-            window.scrollAnimator?.unobserveElement(element);
-        }
-    },
-    
-    // Animate element immediately
-    animateElement(element, animationClass = '') {
-        if (element) {
-            element.classList.add('scroll-animate', animationClass);
-            setTimeout(() => {
-                element.classList.add('fade-in');
-            }, 10);
-        }
-    },
-    
-    // Animate multiple elements with stagger
-    animateElements(elements, animationClass = '', staggerDelay = 100) {
-        elements.forEach((element, index) => {
-            element.classList.add('scroll-animate', animationClass);
-            element.style.transitionDelay = `${index * staggerDelay}ms`;
-            
-            setTimeout(() => {
-                element.classList.add('fade-in');
-            }, 10);
-        });
-    },
-    
-    // Reset all animations
-    resetAnimations() {
-        const elements = document.querySelectorAll('.scroll-animate');
-        elements.forEach(element => {
-            element.classList.remove('fade-in');
-        });
-    },
-    
-    // Destroy animations
-    destroy() {
-        window.scrollAnimator?.destroy();
-        window.staggeredAnimator?.destroy();
-    }
-};
+// Scroll Animation System - Duplicate removed
 
 // Initialize Scroll Animations
 function initializeScrollAnimations() {
@@ -2892,8 +3107,8 @@ function toggleBackToTopButton() {
     const backToTopBtn = document.querySelector('.back-to-top-btn');
     if (!backToTopBtn) return;
     
-    // Show button after scrolling 300px
-    if (window.pageYOffset > 300) {
+    // Show button after scrolling 400px
+    if (window.pageYOffset > 400) {
         backToTopBtn.classList.add('show');
     } else {
         backToTopBtn.classList.remove('show');
@@ -3808,9 +4023,64 @@ function addFloatingCSS() {
     document.head.appendChild(style);
 }
 
+// Scroll Progress Bar Functionality
+function createScrollProgressBar() {
+    // Create progress bar element
+    const progressBar = document.createElement('div');
+    progressBar.className = 'scroll-progress-bar';
+    progressBar.setAttribute('data-progress', '0%');
+    document.body.appendChild(progressBar);
+    
+    // Function to update progress
+    function updateScrollProgress() {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrollPercent = (scrollHeight > 0) ? (scrollTop / scrollHeight) * 100 : 0;
+        
+        // Update progress bar width
+        progressBar.style.width = scrollPercent + '%';
+        progressBar.setAttribute('data-progress', Math.round(scrollPercent) + '%');
+        
+        // Add visual feedback for scroll direction
+        if (scrollPercent > 0) {
+            progressBar.style.boxShadow = '0 2px 8px rgba(0, 198, 255, 0.4)';
+        } else {
+            progressBar.style.boxShadow = '0 2px 4px rgba(0, 198, 255, 0.3)';
+        }
+    }
+    
+    // Add scroll event listener with throttling for performance
+    let ticking = false;
+    function requestTick() {
+        if (!ticking) {
+            requestAnimationFrame(updateScrollProgress);
+            ticking = true;
+        }
+    }
+    
+    window.addEventListener('scroll', requestTick, { passive: true });
+    
+    // Initialize progress on page load
+    updateScrollProgress();
+    
+    console.log('Scroll progress bar initialized');
+}
+
 // Initialize all enhanced hover effects
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Fashion Store loaded successfully!');
+    
+    // Initialize theme system
+    console.log('Initializing theme system...');
+    initializeTheme();
+    createThemeToggleButton();
+    console.log('Theme system initialized');
+    
+    // Initialize wishlist counter
+    initializeWishlistCounter();
+    
+    // Initialize cart counter
+    initializeCartCounter();
     
     // Insert navigation if not already present
     if (!document.querySelector('.navbar')) {
@@ -3825,6 +4095,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize contact form
     initializeContactForm();
+    
+    // Initialize newsletter signup
+    initializeNewsletterSignup();
     
     // Initialize product filtering
     initializeProductFiltering();
@@ -3853,6 +4126,44 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize product card click functionality
     initializeProductCardClicks();
+    
+            // Create scroll progress bar
+        createScrollProgressBar();
+        
+        // Create WhatsApp floating button
+        createWhatsAppButton();
+        
+        // WhatsApp Floating Button Functionality
+        function createWhatsAppButton() {
+            // Create WhatsApp button element
+            const whatsappButton = document.createElement('a');
+            whatsappButton.className = 'whatsapp-float';
+            whatsappButton.href = 'https://wa.me/919876543210?text=Hi%20I%20want%20to%20inquire%20about%20your%20products';
+            whatsappButton.target = '_blank';
+            whatsappButton.rel = 'noopener noreferrer';
+            whatsappButton.setAttribute('aria-label', 'Chat with us on WhatsApp');
+            
+            // Create WhatsApp icon
+            const whatsappIcon = document.createElement('span');
+            whatsappIcon.className = 'whatsapp-icon';
+            whatsappIcon.innerHTML = '💬';
+            
+            // Create tooltip
+            const tooltip = document.createElement('div');
+            tooltip.className = 'whatsapp-tooltip';
+            tooltip.textContent = 'Chat with us on WhatsApp';
+            
+            // Append elements
+            whatsappButton.appendChild(whatsappIcon);
+            whatsappButton.appendChild(tooltip);
+            document.body.appendChild(whatsappButton);
+            
+            // Add click event for analytics (optional)
+            whatsappButton.addEventListener('click', function() {
+                console.log('WhatsApp button clicked');
+                // You can add analytics tracking here
+            });
+        }
     
     // Add CSS for additional effects
     addRippleCSS();
@@ -3917,6 +4228,21 @@ document.addEventListener('DOMContentLoaded', function() {
         showLabels: true,
         smoothScroll: true
     });
+    
+    // Initialize theme system
+    console.log('Initializing theme system...');
+    initializeTheme();
+    createThemeToggleButton();
+    console.log('Theme system initialized');
+    
+    // Initialize wishlist counter
+    initializeWishlistCounter();
+    
+    // Initialize cart counter
+    initializeCartCounter();
+    
+    // Initialize scroll to top button
+    initializeScrollToTop();
 });
 
 // Add keyboard navigation support

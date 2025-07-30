@@ -3,7 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cart - Fashion Store</title>
+    <meta name="description" content="Trendy and affordable clothing for men and women. Explore our fashion collection now.">
+    <meta name="keywords" content="clothing, fashion, e-commerce, t-shirts, jeans, dresses, online shopping">
+    <meta name="author" content="Dipak Yadav">
+    <title>Cart | MyClothingStore</title>
+    <link rel="icon" href="assets/icons/favicon.ico" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -243,6 +247,8 @@
                     <li><a href="about.html" class="nav-link">About</a></li>
                     <li><a href="contact.html" class="nav-link">Contact</a></li>
                     <li><a href="cart.html" class="nav-link active">Cart</a></li>
+                    <li><a href="wishlist.html" class="nav-link wishlist-link">❤️ <span class="wishlist-counter">0</span></a></li>
+                    <li><button class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle theme">🌙</button></li>
                 </ul>
             </div>
         </div>
@@ -285,6 +291,7 @@
                         <span>$0.00</span>
                     </div>
                     <button class="checkout-btn" onclick="proceedToCheckout()">Proceed to Checkout</button>
+                    <button class="clear-cart-btn" onclick="clearCart()">🗑️ Clear Cart</button>
                 </div>
             </div>
         </div>
@@ -319,6 +326,22 @@
         document.addEventListener('DOMContentLoaded', function() {
             console.log("Cart page loaded successfully");
             
+            // Initialize theme system
+            initializeTheme();
+            createThemeToggleButton();
+            
+            // Initialize star rating system
+            initializeCartStarRatings();
+            
+            // Initialize scroll to top button
+            initializeScrollToTop();
+            
+            // Initialize cart counter
+            updateCartCounter();
+            
+            // Create WhatsApp floating button
+            createWhatsAppButton();
+            
             // Check if cart has items
             const cart = JSON.parse(localStorage.getItem('fashionStoreCart') || '[]');
             
@@ -344,39 +367,413 @@
             
             let cartHTML = '';
             let total = 0;
+            let totalItems = 0;
             
             cart.forEach((item, index) => {
-                const price = parseFloat(item.price.replace('$', ''));
-                total += price;
+                // Extract price value (remove currency symbol and convert to number)
+                const priceValue = parseFloat(item.price.replace(/[^\d.]/g, ''));
+                const itemTotal = priceValue * item.quantity;
+                total += itemTotal;
+                totalItems += item.quantity;
+                
+                // Get current rating for this product
+                const currentRating = getProductRating(item.id);
                 
                 cartHTML += `
-                    <div class="cart-item" style="display: flex; align-items: center; padding: 1rem; border-bottom: 1px solid #eee;">
-                        <img src="${item.image || 'https://via.placeholder.com/80x80'}" alt="${item.name}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px; margin-right: 1rem;">
-                        <div style="flex: 1;">
-                            <h4 style="margin-bottom: 0.5rem;">${item.name}</h4>
-                            <p style="color: #666; margin-bottom: 0.5rem;">${item.price}</p>
+                    <div class="cart-item" data-item-id="${item.id}">
+                        <div class="cart-item-image">
+                            <img src="${item.image}" alt="${item.name}" loading="lazy">
                         </div>
-                        <button onclick="removeFromCart(${index})" style="background: #e74c3c; color: white; border: none; padding: 8px 12px; border-radius: 5px; cursor: pointer;">Remove</button>
+                        <div class="cart-item-details">
+                            <h4 class="cart-item-name">${item.name}</h4>
+                            <p class="cart-item-price">${item.price}</p>
+                            <div class="cart-item-quantity">
+                                <button class="quantity-btn" onclick="updateQuantity(${item.id}, -1)">-</button>
+                                <span class="quantity-display">${item.quantity}</span>
+                                <button class="quantity-btn" onclick="updateQuantity(${item.id}, 1)">+</button>
+                            </div>
+                            <div class="cart-item-total">
+                                <span>Total: ${item.price} × ${item.quantity} = ${item.price.replace(/[^\d.]/g, '') * item.quantity}</span>
+                            </div>
+                            <div class="star-rating" data-product-id="${item.id}" title="Click to rate">
+                                <span class="star" data-rating="1">★</span>
+                                <span class="star" data-rating="2">★</span>
+                                <span class="star" data-rating="3">★</span>
+                                <span class="star" data-rating="4">★</span>
+                                <span class="star" data-rating="5">★</span>
+                            </div>
+                        </div>
+                        <div class="cart-item-actions">
+                            <button class="remove-btn" onclick="removeFromCart(${item.id})" aria-label="Remove ${item.name} from cart">
+                                🗑️ Remove
+                            </button>
+                        </div>
                     </div>
                 `;
             });
             
             cartList.innerHTML = cartHTML;
             
-            // Update summary
-            document.querySelector('.summary-item:nth-child(1) span:last-child').textContent = `$${total.toFixed(2)}`;
-            document.querySelector('.summary-item:nth-child(2) span:last-child').textContent = '$5.00';
-            document.querySelector('.summary-item.total span:last-child').textContent = `$${(total + 5).toFixed(2)}`;
+            // Set initial star ratings for cart items
+            cart.forEach((item) => {
+                const cartItem = cartList.querySelector(`[data-item-id="${item.id}"]`);
+                if (cartItem) {
+                    const currentRating = getProductRating(item.id);
+                    updateStarDisplay(cartItem, currentRating);
+                }
+            });
             
-            // Enable checkout button
-            document.querySelector('.checkout-btn').disabled = false;
+            // Update summary
+            updateCartSummary(total, totalItems);
         }
         
-        function removeFromCart(index) {
+        // Update cart summary
+        function updateCartSummary(total, totalItems) {
+            const subtotalElement = document.querySelector('.summary-item:nth-child(1) span:last-child');
+            const shippingElement = document.querySelector('.summary-item:nth-child(2) span:last-child');
+            const totalElement = document.querySelector('.summary-item.total span:last-child');
+            const checkoutBtn = document.querySelector('.checkout-btn');
+            
+            if (subtotalElement) subtotalElement.textContent = `₹${total.toFixed(2)}`;
+            if (shippingElement) shippingElement.textContent = '₹50.00';
+            if (totalElement) totalElement.textContent = `₹${(total + 50).toFixed(2)}`;
+            
+            // Enable/disable checkout button
+            if (checkoutBtn) {
+                checkoutBtn.disabled = totalItems === 0;
+            }
+        }
+        
+        // Remove item from cart
+        function removeFromCart(productId) {
             let cart = JSON.parse(localStorage.getItem('fashionStoreCart') || '[]');
-            cart.splice(index, 1);
+            cart = cart.filter(item => item.id !== productId);
             localStorage.setItem('fashionStoreCart', JSON.stringify(cart));
             displayCartItems(cart);
+            updateCartCounter();
+        }
+        
+        // Update item quantity
+        function updateQuantity(productId, change) {
+            let cart = JSON.parse(localStorage.getItem('fashionStoreCart') || '[]');
+            const item = cart.find(item => item.id === productId);
+            
+            if (item) {
+                item.quantity += change;
+                
+                // Remove item if quantity becomes 0 or less
+                if (item.quantity <= 0) {
+                    cart = cart.filter(item => item.id !== productId);
+                }
+                
+                localStorage.setItem('fashionStoreCart', JSON.stringify(cart));
+                displayCartItems(cart);
+                updateCartCounter();
+            }
+        }
+        
+        // Clear all items from cart
+        function clearCart() {
+            localStorage.removeItem('fashionStoreCart');
+            displayCartItems([]);
+            updateCartCounter();
+            showCartNotification('Cart cleared successfully!');
+        }
+        
+        // Update cart counter in navbar
+        function updateCartCounter() {
+            const cart = JSON.parse(localStorage.getItem('fashionStoreCart') || '[]');
+            const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+            
+            // Update cart link in navbar
+            const cartLink = document.querySelector('.nav-link[href="cart.html"]');
+            if (cartLink) {
+                cartLink.innerHTML = `🛒 Cart (${totalItems})`;
+            }
+        }
+        
+        // WhatsApp Floating Button Functionality
+        function createWhatsAppButton() {
+            // Create WhatsApp button element
+            const whatsappButton = document.createElement('a');
+            whatsappButton.className = 'whatsapp-float';
+            whatsappButton.href = 'https://wa.me/919876543210?text=Hi%20I%20want%20to%20inquire%20about%20your%20products';
+            whatsappButton.target = '_blank';
+            whatsappButton.rel = 'noopener noreferrer';
+            whatsappButton.setAttribute('aria-label', 'Chat with us on WhatsApp');
+            
+            // Create WhatsApp icon
+            const whatsappIcon = document.createElement('span');
+            whatsappIcon.className = 'whatsapp-icon';
+            whatsappIcon.innerHTML = '💬';
+            
+            // Create tooltip
+            const tooltip = document.createElement('div');
+            tooltip.className = 'whatsapp-tooltip';
+            tooltip.textContent = 'Chat with us on WhatsApp';
+            
+            // Append elements
+            whatsappButton.appendChild(whatsappIcon);
+            whatsappButton.appendChild(tooltip);
+            document.body.appendChild(whatsappButton);
+            
+            // Add click event for analytics (optional)
+            whatsappButton.addEventListener('click', function() {
+                console.log('WhatsApp button clicked');
+                // You can add analytics tracking here
+            });
+        }
+        
+        // Theme Management Functions
+        let currentTheme = 'light';
+
+        // Initialize theme on page load
+        function initializeTheme() {
+            // Get saved theme from localStorage
+            const savedTheme = localStorage.getItem('fashionStoreTheme') || 'light';
+            setTheme(savedTheme);
+        }
+
+        // Set theme function
+        function setTheme(theme) {
+            currentTheme = theme;
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('fashionStoreTheme', theme);
+            
+            // Update theme toggle button
+            updateThemeToggleButton();
+        }
+
+        // Toggle theme function
+        function toggleTheme() {
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            setTheme(newTheme);
+        }
+
+        // Update theme toggle button
+        function updateThemeToggleButton() {
+            const themeToggle = document.querySelector('.theme-toggle-btn');
+            if (themeToggle) {
+                if (currentTheme === 'light') {
+                    themeToggle.innerHTML = '🌙';
+                    themeToggle.setAttribute('aria-label', 'Switch to dark mode');
+                    themeToggle.title = 'Switch to dark mode';
+                } else {
+                    themeToggle.innerHTML = '🌞';
+                    themeToggle.setAttribute('aria-label', 'Switch to light mode');
+                    themeToggle.title = 'Switch to light mode';
+                }
+            }
+        }
+
+        // Create theme toggle button
+        function createThemeToggleButton() {
+            // Check if button already exists
+            if (document.querySelector('.theme-toggle-btn')) {
+                return;
+            }
+            
+            // Find the navbar container
+            const navContainer = document.querySelector('.nav-container');
+            if (!navContainer) {
+                return;
+            }
+            
+            // Create theme toggle button
+            const themeToggle = document.createElement('button');
+            themeToggle.className = 'theme-toggle-btn';
+            themeToggle.setAttribute('aria-label', 'Toggle theme');
+            themeToggle.addEventListener('click', toggleTheme);
+            
+            // Insert button before the hamburger menu
+            const hamburger = document.querySelector('.hamburger');
+            if (hamburger) {
+                hamburger.parentNode.insertBefore(themeToggle, hamburger);
+            } else {
+                // If no hamburger, add to the end
+                navContainer.appendChild(themeToggle);
+            }
+            
+            // Update button appearance
+            updateThemeToggleButton();
+        }
+
+        // Show cart notification
+        function showCartNotification(message) {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = 'cart-notification';
+            notification.textContent = message;
+            
+            // Add to page
+            document.body.appendChild(notification);
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+        
+        // Star Rating Functions
+        function getProductRating(productId) {
+            const ratings = JSON.parse(localStorage.getItem('productRatings') || '{}');
+            return ratings[productId] || 0;
+        }
+        
+        function setProductRating(productId, rating) {
+            const ratings = JSON.parse(localStorage.getItem('productRatings') || '{}');
+            ratings[productId] = rating;
+            localStorage.setItem('productRatings', JSON.stringify(ratings));
+        }
+        
+        function updateStarDisplay(cartItem, rating) {
+            const starRating = cartItem.querySelector('.star-rating');
+            const stars = starRating.querySelectorAll('.star');
+            
+            stars.forEach((star, index) => {
+                const starRating = index + 1;
+                if (starRating <= rating) {
+                    star.classList.add('active');
+                } else {
+                    star.classList.remove('active');
+                }
+            });
+        }
+        
+        function highlightStars(starRating, hoverRating) {
+            const stars = starRating.querySelectorAll('.star');
+            
+            stars.forEach((star, index) => {
+                const starRating = index + 1;
+                if (starRating <= hoverRating) {
+                    star.classList.add('hover');
+                } else {
+                    star.classList.remove('hover');
+                }
+            });
+        }
+        
+        function showRatingNotification(rating) {
+            const messages = [
+                'Thanks for rating!',
+                'Great rating!',
+                'Excellent choice!',
+                'Amazing rating!',
+                'Perfect! Thank you!'
+            ];
+            
+            const message = messages[rating - 1] || 'Thanks for rating!';
+            
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = 'rating-notification';
+            notification.textContent = `${message} (${rating}/5 stars)`;
+            
+            // Add to page
+            document.body.appendChild(notification);
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+        
+        // Initialize star ratings for cart
+        function initializeCartStarRatings() {
+            // Add click event listeners to all star ratings
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('star')) {
+                    const starRating = e.target.closest('.star-rating');
+                    const productId = parseInt(starRating.dataset.productId);
+                    const rating = parseInt(e.target.dataset.rating);
+                    
+                    // Set the rating
+                    setProductRating(productId, rating);
+                    
+                    // Update the display
+                    updateStarDisplay(starRating.closest('.cart-item'), rating);
+                    
+                    // Show notification
+                    showRatingNotification(rating);
+                }
+            });
+            
+            // Add hover effects for star ratings
+            document.addEventListener('mouseover', function(e) {
+                if (e.target.classList.contains('star')) {
+                    const starRating = e.target.closest('.star-rating');
+                    const hoverRating = parseInt(e.target.dataset.rating);
+                    
+                    // Highlight stars on hover
+                    highlightStars(starRating, hoverRating);
+                }
+            });
+            
+            // Remove hover effects when mouse leaves
+            document.addEventListener('mouseout', function(e) {
+                if (e.target.classList.contains('star')) {
+                    const starRating = e.target.closest('.star-rating');
+                    const productId = parseInt(starRating.dataset.productId);
+                    const currentRating = getProductRating(productId);
+                    
+                    // Restore current rating display
+                    updateStarDisplay(starRating.closest('.cart-item'), currentRating);
+                }
+            });
+        }
+        
+        // Scroll to Top Button Functions
+        function createScrollToTopButton() {
+            // Create the button element
+            const scrollButton = document.createElement('button');
+            scrollButton.className = 'scroll-to-top-btn';
+            scrollButton.innerHTML = '↑ Top';
+            scrollButton.setAttribute('aria-label', 'Scroll to top of page');
+            scrollButton.setAttribute('title', 'Scroll to top');
+            
+            // Add click event listener
+            scrollButton.addEventListener('click', function() {
+                // Smooth scroll to top
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+                
+                // Add click feedback
+                this.classList.add('clicked');
+                setTimeout(() => {
+                    this.classList.remove('clicked');
+                }, 200);
+            });
+            
+            // Add to page
+            document.body.appendChild(scrollButton);
+            
+            return scrollButton;
+        }
+        
+        function toggleScrollToTopButton() {
+            const scrollButton = document.querySelector('.scroll-to-top-btn');
+            if (!scrollButton) return;
+            
+            const scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+            
+            if (scrollPosition > 300) {
+                scrollButton.classList.add('show');
+            } else {
+                scrollButton.classList.remove('show');
+            }
+        }
+        
+        function initializeScrollToTop() {
+            // Create the button
+            createScrollToTopButton();
+            
+            // Add scroll event listener
+            window.addEventListener('scroll', toggleScrollToTopButton);
+            
+            // Initial check
+            toggleScrollToTopButton();
         }
         
         function proceedToCheckout() {

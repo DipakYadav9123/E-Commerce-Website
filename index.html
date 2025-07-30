@@ -3,25 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fashion Store - Your One-Stop Fashion Destination</title>
-    <meta name="description" content="Discover trendy fashion at Fashion Store. Shop the latest clothing, accessories, and footwear for men and women. Free shipping on orders over $50.">
-    <meta name="keywords" content="fashion, clothing, trendy, men, women, accessories, footwear, online shopping">
-    <meta name="author" content="Fashion Store">
-    <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://fashionstore.com/">
-    
-    <!-- Open Graph Meta Tags for Social Media -->
-    <meta property="og:title" content="Fashion Store - Your One-Stop Fashion Destination">
-    <meta property="og:description" content="Discover trendy fashion at Fashion Store. Shop the latest clothing, accessories, and footwear for men and women.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://fashionstore.com/">
-    <meta property="og:image" content="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1200&h=600&fit=crop">
-    
-    <!-- Twitter Card Meta Tags -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Fashion Store - Your One-Stop Fashion Destination">
-    <meta name="twitter:description" content="Discover trendy fashion at Fashion Store. Shop the latest clothing, accessories, and footwear.">
-    <meta name="twitter:image" content="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1200&h=600&fit=crop">
+    <meta name="description" content="Trendy and affordable clothing for men and women. Explore our fashion collection now.">
+    <meta name="keywords" content="clothing, fashion, e-commerce, t-shirts, jeans, dresses, online shopping">
+    <meta name="author" content="Dipak Yadav">
+    <title>Home | MyClothingStore</title>
     <link rel="icon" href="assets/icons/favicon.ico" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -2039,6 +2024,75 @@
     </style>
 </head>
 <body>
+<!-- Preloader Spinner Overlay -->
+<div id="loader">
+  <div class="spinner-container">
+    <div class="spinner"></div>
+    <div class="loader-text">Loading...</div>
+  </div>
+</div>
+
+<style>
+#loader {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: #fff;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.5s ease;
+  opacity: 1;
+}
+#loader.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+.spinner-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.spinner {
+  width: 60px;
+  height: 60px;
+  border: 6px solid #e0e0e0;
+  border-top: 6px solid #e74c3c;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 18px;
+  box-shadow: 0 4px 16px rgba(231,76,60,0.08);
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+.loader-text {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.1rem;
+  color: #e74c3c;
+  letter-spacing: 1px;
+  font-weight: 500;
+  text-align: center;
+}
+@media (max-width: 600px) {
+  .spinner { width: 40px; height: 40px; border-width: 4px; }
+  .loader-text { font-size: 1rem; }
+}
+</style>
+
+<script>
+window.addEventListener('load', function() {
+  var loader = document.getElementById('loader');
+  if (loader) {
+    loader.classList.add('fade-out');
+    setTimeout(function() {
+      loader.style.display = 'none';
+    }, 600); // match transition duration
+  }
+});
+</script>
 
     <!-- Skip to main content link for accessibility -->
     <a href="#main-content" class="skip-link">Skip to main content</a>
@@ -2055,6 +2109,8 @@
                 <li role="none"><a href="#about" class="nav-link" role="menuitem">About</a></li>
                 <li role="none"><a href="contact.html" class="nav-link" role="menuitem">Contact</a></li>
                 <li role="none"><a href="cart.html" class="nav-link" role="menuitem">Cart</a></li>
+                <li role="none"><a href="wishlist.html" class="nav-link wishlist-link" role="menuitem">❤️ <span class="wishlist-counter">0</span></a></li>
+                <li role="none"><a href="admin.html" class="nav-link" role="menuitem">🛠️ Admin</a></li>
             </ul>
             <div class="search-container" role="search">
                 <label for="search-input" class="sr-only">Search products</label>
@@ -2063,6 +2119,11 @@
                     🔍
                 </button>
             </div>
+
+            <!-- Theme Toggle Button -->
+            <button class="theme-toggle-btn" onclick="console.log('Button clicked!'); toggleTheme();" aria-label="Toggle theme" style="background: #e74c3c !important; color: white !important; border: 2px solid white !important; padding: 8px !important; border-radius: 50% !important; width: 40px !important; height: 40px !important; display: flex !important; align-items: center !important; justify-content: center !important; cursor: pointer !important; font-size: 18px !important;">
+                🌙
+            </button>
 
             <div class="hamburger" id="hamburger" role="button" aria-label="Toggle mobile menu" aria-expanded="false" tabindex="0">
                 <span aria-hidden="true"></span>
@@ -2091,10 +2152,10 @@
                     <div class="floating-icon">👟</div>
                 </div>
             </div>
-            <div class="hero-content">
-                <h1 id="hero-title" class="typing-animation">Discover Your Style</h1>
-                <p class="fade-in-text">Explore our latest collection of trendy fashion items for men, women, and kids. Quality fashion at affordable prices.</p>
-                <button class="hero-cta-btn" onclick="window.location.href='products.html'" aria-label="Shop our products">
+            <div class="hero-content" data-aos="fade-up" data-aos-duration="1000">
+                <h1 id="hero-title" class="typing-animation" data-aos="fade-up" data-aos-delay="200">Discover Your Style</h1>
+                <p class="fade-in-text" data-aos="fade-up" data-aos-delay="400">Explore our latest collection of trendy fashion items for men, women, and kids. Quality fashion at affordable prices.</p>
+                <button class="hero-cta-btn" onclick="window.location.href='products.html'" aria-label="Shop our products" data-aos="fade-up" data-aos-delay="600">
                     <span class="btn-text">Shop Now</span>
                     <span class="btn-glow"></span>
                 </button>
@@ -2104,27 +2165,27 @@
     <!-- Categories Section -->
     <section id="categories" class="categories" aria-labelledby="categories-title">
         <div class="container">
-            <h2 id="categories-title" data-animate="fade-up">Shop by Category</h2>
+            <h2 id="categories-title" data-aos="fade-up" data-aos-duration="1000">Shop by Category</h2>
             <div class="categories-grid" role="list">
-                <div class="category-card" role="listitem" data-animate="fade-up" data-delay="0.1">
+                <div class="category-card" role="listitem" data-aos="fade-up" data-aos-delay="200">
                     <div class="category-icon" aria-hidden="true">👨</div>
                     <h3>Men's Fashion</h3>
                     <p>Trendy clothing for men including shirts, jeans, jackets, and accessories.</p>
                     <a href="products.html" class="category-btn" aria-label="Shop men's fashion">Shop Men</a>
                 </div>
-                <div class="category-card" role="listitem" data-animate="fade-up" data-delay="0.2">
+                <div class="category-card" role="listitem" data-aos="fade-up" data-aos-delay="400">
                     <div class="category-icon" aria-hidden="true">👩</div>
                     <h3>Women's Fashion</h3>
                     <p>Elegant dresses, blouses, skirts, and accessories for women.</p>
                     <a href="products.html" class="category-btn" aria-label="Shop women's fashion">Shop Women</a>
                 </div>
-                <div class="category-card" role="listitem" data-animate="fade-up" data-delay="0.3">
+                <div class="category-card" role="listitem" data-aos="fade-up" data-aos-delay="600">
                     <div class="category-icon" aria-hidden="true">👶</div>
                     <h3>Kids Fashion</h3>
                     <p>Comfortable and stylish clothing for kids of all ages.</p>
                     <a href="products.html" class="category-btn" aria-label="Shop kids fashion">Shop Kids</a>
                 </div>
-                <div class="category-card" role="listitem" data-animate="fade-up" data-delay="0.4">
+                <div class="category-card" role="listitem" data-aos="fade-up" data-aos-delay="800">
                     <div class="category-icon" aria-hidden="true">👜</div>
                     <h3>Accessories</h3>
                     <p>Bags, jewelry, watches, and other fashion accessories.</p>
@@ -2137,15 +2198,15 @@
     <!-- About Section -->
     <section id="about" class="about-section" aria-labelledby="about-title">
         <div class="container">
-            <h2 id="about-title" data-animate="fade-up">About Fashion Store</h2>
+            <h2 id="about-title" data-aos="fade-up" data-aos-duration="1000">About Fashion Store</h2>
             <div class="about-content">
-                <div class="about-text" data-animate="fade-left" data-delay="0.2">
+                <div class="about-text" data-aos="fade-right" data-aos-delay="200">
                     <h3>Your Fashion Destination</h3>
                     <p>Founded in 2020, Fashion Store began as a small family-owned boutique with a simple mission: to make quality fashion accessible to everyone. What started as a passion project has grown into a trusted destination for trendy, sustainable fashion.</p>
                     <p>Today, we continue to honor our roots by maintaining the same commitment to quality, customer service, and community that inspired us to start this journey. We believe that fashion should be inclusive, sustainable, and accessible to all.</p>
                 </div>
-                <div class="about-image" data-animate="fade-right" data-delay="0.4">
-                    <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600&h=400&fit=crop" alt="Our Fashion Team working together" loading="lazy">
+                <div class="about-image" data-aos="fade-left" data-aos-delay="400">
+                                            <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600&h=400&fit=crop" alt="Diverse fashion team collaborating on design and styling projects" loading="lazy">
                 </div>
             </div>
         </div>
@@ -2154,24 +2215,24 @@
     <!-- Values Section -->
     <section id="values" class="values">
         <div class="container">
-            <h2 data-animate="fade-up">Our Values</h2>
+            <h2 data-aos="fade-up" data-aos-duration="1000">Our Values</h2>
             <div class="values-grid">
-                <div class="value-item" data-animate="scale" data-delay="0.1">
+                <div class="value-item" data-aos="zoom-in" data-aos-delay="200">
                     <div class="value-icon">🌱</div>
                     <h3>Eco-Friendly</h3>
                     <p>We use sustainable materials and eco-friendly practices to minimize our environmental impact while creating beautiful fashion pieces.</p>
                 </div>
-                <div class="value-item" data-animate="scale" data-delay="0.2">
+                <div class="value-item" data-aos="zoom-in" data-aos-delay="400">
                     <div class="value-icon">🤝</div>
                     <h3>Handmade</h3>
                     <p>Many of our pieces are carefully crafted by skilled artisans, ensuring unique quality and supporting traditional craftsmanship.</p>
                 </div>
-                <div class="value-item" data-animate="scale" data-delay="0.3">
+                <div class="value-item" data-aos="zoom-in" data-aos-delay="600">
                     <div class="value-icon">💎</div>
                     <h3>Quality First</h3>
                     <p>We never compromise on quality. Every item in our collection is carefully selected and tested to meet our high standards.</p>
                 </div>
-                <div class="value-item" data-animate="scale" data-delay="0.4">
+                <div class="value-item" data-aos="zoom-in" data-aos-delay="800">
                     <div class="value-icon">❤️</div>
                     <h3>Customer Care</h3>
                     <p>Your satisfaction is our priority. We provide exceptional customer service and support throughout your shopping journey.</p>
@@ -2193,35 +2254,51 @@
     <!-- Testimonials Slider -->
     <section id="testimonials" class="testimonials">
         <div class="container">
-            <h2>What Our Customers Say</h2>
+            <h2 data-aos="fade-up" data-aos-duration="1000">What Our Customers Say</h2>
             <div class="testimonial-slider">
                 <div class="testimonial-slides">
                     <div class="testimonial-slide active">
                         <div class="testimonial-card">
+                            <div class="customer-photo">
+                                <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=100&h=100&fit=crop&crop=face" alt="Sarah Johnson" loading="lazy">
+                            </div>
                             <div class="stars">⭐⭐⭐⭐⭐</div>
-                            <p>"Amazing quality and fast delivery! I love my new dress from Fashion Store."</p>
+                            <p>"Amazing quality and fast delivery! I love my new dress from Fashion Store. The fabric is so soft and the fit is perfect!"</p>
                             <h4>- Sarah Johnson</h4>
+                            <span class="customer-location">📍 New York, NY</span>
                         </div>
                     </div>
                     <div class="testimonial-slide">
                         <div class="testimonial-card">
+                            <div class="customer-photo">
+                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face" alt="Mike Davis" loading="lazy">
+                            </div>
                             <div class="stars">⭐⭐⭐⭐⭐</div>
-                            <p>"Great prices and excellent customer service. Highly recommended!"</p>
+                            <p>"Great prices and excellent customer service. The collection is trendy and affordable. Highly recommended!"</p>
                             <h4>- Mike Davis</h4>
+                            <span class="customer-location">📍 Los Angeles, CA</span>
                         </div>
                     </div>
                     <div class="testimonial-slide">
                         <div class="testimonial-card">
+                            <div class="customer-photo">
+                                <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face" alt="Emily Wilson" loading="lazy">
+                            </div>
                             <div class="stars">⭐⭐⭐⭐⭐</div>
-                            <p>"The quality of their products is outstanding. Will definitely shop again!"</p>
+                            <p>"The quality of their products is outstanding. I've been shopping here for months and never been disappointed!"</p>
                             <h4>- Emily Wilson</h4>
+                            <span class="customer-location">📍 Chicago, IL</span>
                         </div>
                     </div>
                     <div class="testimonial-slide">
                         <div class="testimonial-card">
+                            <div class="customer-photo">
+                                <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face" alt="David Brown" loading="lazy">
+                            </div>
                             <div class="stars">⭐⭐⭐⭐⭐</div>
-                            <p>"Fast shipping and beautiful packaging. Love their attention to detail!"</p>
+                            <p>"Fast shipping and beautiful packaging. Love their attention to detail and the variety of styles available!"</p>
                             <h4>- David Brown</h4>
+                            <span class="customer-location">📍 Miami, FL</span>
                         </div>
                     </div>
                 </div>
@@ -2242,9 +2319,9 @@
     <!-- Newsletter Section -->
     <section id="newsletter" class="newsletter">
         <div class="container">
-            <h2>Stay Updated</h2>
-            <p>Subscribe to our newsletter for the latest fashion trends and exclusive offers!</p>
-            <form class="newsletter-form">
+            <h2 data-aos="fade-up" data-aos-duration="1000">Stay Updated</h2>
+            <p data-aos="fade-up" data-aos-delay="200">Subscribe to our newsletter for the latest fashion trends and exclusive offers!</p>
+            <form class="newsletter-form" data-aos="fade-up" data-aos-delay="400">
                 <input type="email" class="newsletter-input" placeholder="Enter your email" required>
                                         <button type="submit" class="newsletter-btn ripple">Subscribe</button>
             </form>
@@ -2254,31 +2331,31 @@
     <!-- Contact Section -->
     <section id="contact" class="contact-section">
         <div class="container">
-            <h2>Get in Touch</h2>
+            <h2 data-aos="fade-up" data-aos-duration="1000">Get in Touch</h2>
             <div class="contact-grid">
                 <div class="contact-info">
-                    <div class="contact-item">
+                    <div class="contact-item" data-aos="fade-right" data-aos-delay="200">
                         <div class="contact-icon">📍</div>
                         <div class="contact-details">
                             <h3>Visit Our Store</h3>
                             <p>123 Fashion Street<br>Downtown District<br>City, State 12345</p>
                         </div>
                     </div>
-                    <div class="contact-item">
+                    <div class="contact-item" data-aos="fade-right" data-aos-delay="400">
                         <div class="contact-icon">📧</div>
                         <div class="contact-details">
                             <h3>Email Us</h3>
                             <p>General: info@fashionstore.com<br>Support: support@fashionstore.com</p>
                         </div>
                     </div>
-                    <div class="contact-item">
+                    <div class="contact-item" data-aos="fade-right" data-aos-delay="600">
                         <div class="contact-icon">📞</div>
                         <div class="contact-details">
                             <h3>Call Us</h3>
                             <p>Customer Care: +1 (555) 123-4567<br>Sales: +1 (555) 123-4568</p>
                         </div>
                     </div>
-                    <div class="contact-item">
+                    <div class="contact-item" data-aos="fade-right" data-aos-delay="800">
                         <div class="contact-icon">🕒</div>
                         <div class="contact-details">
                             <h3>Business Hours</h3>
@@ -2288,7 +2365,7 @@
                 </div>
                 
                 <!-- Contact Form -->
-                <div class="contact-form-container">
+                <div class="contact-form-container" data-aos="fade-left" data-aos-delay="200">
                     <h3>Send us a Message</h3>
                     <form class="contact-form">
                         <div class="form-group">
@@ -2333,6 +2410,7 @@
                             <li><a href="#about" style="color: white; text-decoration: none;">About Us</a></li>
                             <li><a href="contact.html" style="color: white; text-decoration: none;">Contact</a></li>
                             <li><a href="cart.html" style="color: white; text-decoration: none;">Cart</a></li>
+                        <li><a href="wishlist.html" style="color: white; text-decoration: none;">Wishlist</a></li>
                         </ul>
                     </nav>
                 </div>
@@ -2344,6 +2422,28 @@
                         <a href="#" class="social-icon" role="listitem" aria-label="Twitter">🐦</a>
                         <a href="#" class="social-icon" role="listitem" aria-label="YouTube">📺</a>
                     </div>
+                </div>
+                <div class="footer-section newsletter-section">
+                    <h3>Subscribe to our Newsletter</h3>
+                    <p>Stay updated with latest fashion trends and exclusive offers!</p>
+                    <form class="newsletter-form" id="newsletterForm" onsubmit="handleNewsletterSubmit(event)">
+                        <div class="newsletter-input-group">
+                            <input 
+                                type="email" 
+                                id="newsletterEmail" 
+                                name="newsletterEmail" 
+                                placeholder="Enter your email..." 
+                                required
+                                class="newsletter-input"
+                                aria-label="Email address for newsletter"
+                            >
+                            <button type="submit" class="newsletter-btn" aria-label="Subscribe to newsletter">
+                                Subscribe
+                            </button>
+                        </div>
+                        <div id="newsletterMessage" class="newsletter-message"></div>
+                        <p class="newsletter-note">We don't spam. Unsubscribe anytime.</p>
+                    </form>
                 </div>
             </div>
             <div class="footer-bottom">
@@ -5483,6 +5583,16 @@
             });
             
             console.log('✅ Working product fix setup complete!');
+        });
+    </script>
+    
+    <!-- AOS Script -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 1000,
+            once: true,
+            offset: 100
         });
     </script>
     
