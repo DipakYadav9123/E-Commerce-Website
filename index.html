@@ -20,6 +20,83 @@
     <!-- AOS CSS -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <style>
+        /* Currency Switcher Styles */
+        .currency-switcher {
+            margin-left: 15px;
+            position: relative;
+        }
+        
+        .currency-select {
+            padding: 8px 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            background: white;
+            color: #333;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            outline: none;
+            min-width: 100px;
+        }
+        
+        .currency-select:hover {
+            border-color: #667eea;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
+        }
+        
+        .currency-select:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .currency-select option {
+            padding: 8px;
+            font-weight: 500;
+        }
+        
+        /* Responsive Currency Switcher */
+        @media (max-width: 768px) {
+            .currency-switcher {
+                margin-left: 10px;
+            }
+            
+            .currency-select {
+                min-width: 80px;
+                font-size: 13px;
+                padding: 6px 10px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .currency-switcher {
+                margin-left: 5px;
+            }
+            
+            .currency-select {
+                min-width: 70px;
+                font-size: 12px;
+                padding: 5px 8px;
+            }
+        }
+        
+        /* Dark Theme Support */
+        [data-theme="dark"] .currency-select {
+            background: #2c2c2c;
+            color: #fff;
+            border-color: #555;
+        }
+        
+        [data-theme="dark"] .currency-select:hover {
+            border-color: #667eea;
+        }
+        
+        [data-theme="dark"] .currency-select option {
+            background: #2c2c2c;
+            color: #fff;
+        }
+        
+        /* Complete Fashion Store Styles */
         /* Complete Fashion Store Styles */
         
 
@@ -2110,6 +2187,7 @@ window.addEventListener('load', function() {
                 <li role="none"><a href="contact.html" class="nav-link" role="menuitem">Contact</a></li>
                 <li role="none"><a href="cart.html" class="nav-link" role="menuitem">Cart</a></li>
                 <li role="none"><a href="wishlist.html" class="nav-link wishlist-link" role="menuitem">❤️ <span class="wishlist-counter">0</span></a></li>
+                <li role="none"><a href="track-order.html" class="nav-link" role="menuitem">📦 Track Order</a></li>
                 <li role="none"><a href="admin.html" class="nav-link" role="menuitem">🛠️ Admin</a></li>
             </ul>
             <div class="search-container" role="search">
@@ -2118,6 +2196,15 @@ window.addEventListener('load', function() {
                 <button class="search-btn" onclick="searchProducts(document.querySelector('.search-input').value)" aria-label="Search">
                     🔍
                 </button>
+            </div>
+
+            <!-- Currency Switcher -->
+            <div class="currency-switcher">
+                <select id="currency-select" class="currency-select" onchange="changeCurrency(this.value)" aria-label="Select currency">
+                    <option value="INR">₹ INR</option>
+                    <option value="USD">$ USD</option>
+                    <option value="EUR">€ EUR</option>
+                </select>
             </div>
 
             <!-- Theme Toggle Button -->
@@ -5479,6 +5566,10 @@ window.addEventListener('load', function() {
         initializeTouchGestures();
         console.log('✅ Touch gestures initialized');
 
+        // Initialize currency system
+        initializeCurrencySystem();
+        console.log('✅ Currency system initialized');
+
         // Initialize seasonal themes
         initializeSeasonalThemes();
         console.log('✅ Seasonal themes initialized');
@@ -5520,6 +5611,101 @@ window.addEventListener('load', function() {
 
         console.log('🎉 All Fashion Store features initialized successfully!');
         
+        // Currency System
+        const currencyRates = {
+            INR: 1,
+            USD: 0.012,
+            EUR: 0.011
+        };
+        
+        const currencySymbols = {
+            INR: '₹',
+            USD: '$',
+            EUR: '€'
+        };
+        
+        let currentCurrency = 'INR';
+        
+        function initializeCurrencySystem() {
+            // Load saved currency preference
+            const savedCurrency = localStorage.getItem('fashionStoreCurrency') || 'INR';
+            currentCurrency = savedCurrency;
+            
+            // Set the dropdown value
+            const currencySelect = document.getElementById('currency-select');
+            if (currencySelect) {
+                currencySelect.value = currentCurrency;
+            }
+            
+            // Update all prices on the page
+            updateAllPrices();
+        }
+        
+        function changeCurrency(newCurrency) {
+            currentCurrency = newCurrency;
+            localStorage.setItem('fashionStoreCurrency', newCurrency);
+            
+            // Update all prices on the page
+            updateAllPrices();
+            
+            console.log(`Currency changed to: ${newCurrency}`);
+        }
+        
+        function convertPrice(priceInINR) {
+            const numericPrice = parseFloat(priceInINR.replace(/[^\d.]/g, ''));
+            const convertedPrice = numericPrice * currencyRates[currentCurrency];
+            const symbol = currencySymbols[currentCurrency];
+            
+            // Format based on currency
+            if (currentCurrency === 'INR') {
+                return `${symbol}${convertedPrice.toFixed(0)}`;
+            } else {
+                return `${symbol}${convertedPrice.toFixed(2)}`;
+            }
+        }
+        
+        function updateAllPrices() {
+            // Update product prices
+            const priceElements = document.querySelectorAll('.price');
+            priceElements.forEach(element => {
+                const originalPrice = element.getAttribute('data-original-price') || element.textContent;
+                if (!element.getAttribute('data-original-price')) {
+                    element.setAttribute('data-original-price', originalPrice);
+                }
+                
+                element.textContent = convertPrice(originalPrice);
+            });
+            
+            // Update cart prices
+            updateCartPrices();
+            
+            // Update summary prices
+            updateSummaryPrices();
+        }
+        
+        function updateCartPrices() {
+            const cartItems = document.querySelectorAll('.cart-item-price, .summary-item span:last-child');
+            cartItems.forEach(element => {
+                const originalPrice = element.getAttribute('data-original-price') || element.textContent;
+                if (!element.getAttribute('data-original-price')) {
+                    element.setAttribute('data-original-price', originalPrice);
+                }
+                
+                element.textContent = convertPrice(originalPrice);
+            });
+        }
+        
+        function updateSummaryPrices() {
+            const summaryElements = document.querySelectorAll('#subtotal, #total, #discount-amount');
+            summaryElements.forEach(element => {
+                const originalPrice = element.getAttribute('data-original-price') || element.textContent;
+                if (!element.getAttribute('data-original-price')) {
+                    element.setAttribute('data-original-price', originalPrice);
+                }
+                
+                element.textContent = convertPrice(originalPrice);
+            });
+        }
 
     });
     </script>
