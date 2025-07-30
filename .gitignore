@@ -1,1 +1,31 @@
-node_modules
+# Ignore everything by default
+*
+
+# Allow only essential files
+!index.html
+!about.html
+!contact.html
+!cart.html
+!offers.html
+!blog.html
+!css/
+!css/style.css
+!js/
+!js/script.js
+!assets/
+!assets/images/
+!assets/icons/
+!README.md
+!.gitignore
+
+# Ignore all other files and folders
+build/
+js-old/
+.vscode/
+mobile-app/
+src/
+node_modules/
+*.log
+*.tmp
+.DS_Store
+Thumbs.db 

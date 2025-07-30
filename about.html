@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO Meta Tags -->
+    <title>About Fashion Store - Our Story & Mission | Fashion Store</title>
+    <meta name="description" content="Learn about Fashion Store's journey from a small family boutique to a trusted fashion destination. Discover our mission, values, and commitment to quality fashion.">
+    <meta name="keywords" content="about fashion store, fashion store story, fashion store mission, fashion store history, fashion store values, fashion store team, fashion store about us">
+    <meta name="author" content="Fashion Store">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph Meta Tags for Social Media -->
+    <meta property="og:title" content="About Fashion Store - Our Story & Mission">
+    <meta property="og:description" content="Learn about Fashion Store's journey from a small family boutique to a trusted fashion destination.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://fashionstore.com/about.html">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1200&h=600&fit=crop">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="About Fashion Store - Our Story & Mission">
+    <meta name="twitter:description" content="Learn about Fashion Store's journey from a small family boutique to a trusted fashion destination.">
+    <meta name="twitter:image" content="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1200&h=600&fit=crop">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://fashionstore.com/about.html">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="assets/icons/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16x16.png">
+    
+    <!-- Preconnect to external domains for performance -->
+    <link rel="preconnect" href="https://images.unsplash.com">
+    <link rel="dns-prefetch" href="https://images.unsplash.com">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    
+    <style>
+        /* About Page Specific Styles */
+        .about-header {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .about-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1920&h=600&fit=crop') center/cover;
+            opacity: 0.3;
+            z-index: 1;
+        }
+        
+        .about-header-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .about-header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        
+        .about-header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .about-content {
+            padding: 4rem 0;
+        }
+        
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            margin-bottom: 4rem;
+        }
+        
+        .about-story h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: #333;
+        }
+        
+        .about-story p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+        
+        .about-image img {
+            width: 100%;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .vision-section {
+            background: #f8f9fa;
+            padding: 4rem 0;
+            text-align: center;
+        }
+        
+        .vision-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: #333;
+        }
+        
+        .vision-section p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #666;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .values-section {
+            padding: 4rem 0;
+        }
+        
+        .values-section h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #333;
+        }
+        
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .value-item {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .value-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+        
+        .value-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .value-item h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+        
+        .value-item p {
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        .team-section {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+        }
+        
+        .team-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .team-section p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto 3rem;
+        }
+        
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .team-member {
+            background: rgba(255,255,255,0.1);
+            padding: 2rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .team-member h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .team-member p {
+            opacity: 0.8;
+        }
+        
+        @media (max-width: 768px) {
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .about-header h1 {
+                font-size: 2rem;
+            }
+            
+            .about-story h2,
+            .vision-section h2,
+            .values-section h2,
+            .team-section h2 {
+                font-size: 2rem;
+            }
+            
+            .values-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" role="navigation" aria-label="Main navigation">
+        <div class="nav-container">
+            <div class="logo">
+                <h2>Fashion Store</h2>
+            </div>
+            <ul class="nav-menu" role="menubar">
+                <li role="none"><a href="index.html" class="nav-link" role="menuitem">Home</a></li>
+                <li role="none"><a href="products.html" class="nav-link" role="menuitem">Products</a></li>
+                <li role="none"><a href="about.html" class="nav-link active" role="menuitem" aria-current="page">About</a></li>
+                <li role="none"><a href="contact.html" class="nav-link" role="menuitem">Contact</a></li>
+                <li role="none"><a href="cart.html" class="nav-link" role="menuitem">Cart</a></li>
+            </ul>
+            <div class="search-container" role="search">
+                <label for="search-input" class="sr-only">Search products</label>
+                <input type="text" id="search-input" class="search-input" placeholder="Search products..." onkeyup="searchProducts(this.value)" aria-label="Search products">
+                <button class="search-btn" onclick="searchProducts(document.querySelector('.search-input').value)" aria-label="Search">
+                    🔍
+                </button>
+            </div>
+
+            <div class="hamburger" id="hamburger" role="button" aria-label="Toggle mobile menu" aria-expanded="false" tabindex="0">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- About Header -->
+    <section class="about-header">
+        <div class="container">
+            <div class="about-header-content">
+                <h1>About Fashion Store</h1>
+                <p>Discover our journey from a small family boutique to a trusted fashion destination</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Content -->
+    <section class="about-content">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-story">
+                    <h2>Our Story</h2>
+                    <p>Founded in 2020, Fashion Store began as a small family-owned boutique with a simple mission: to make quality fashion accessible to everyone. What started as a passion project has grown into a trusted destination for trendy, sustainable fashion.</p>
+                    <p>Our founders, Sarah and Michael Johnson, started this journey with a vision to create a fashion store that would not only offer the latest trends but also maintain the personal touch and customer service that small boutiques are known for.</p>
+                    <p>Today, we continue to honor our roots by maintaining the same commitment to quality, customer service, and community that inspired us to start this journey. We believe that fashion should be inclusive, sustainable, and accessible to all.</p>
+                </div>
+                <div class="about-image">
+                    <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600&h=400&fit=crop" alt="Our Fashion Team working together" loading="lazy">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Vision Section -->
+    <section class="vision-section">
+        <div class="container">
+            <h2>Our Vision</h2>
+            <p>We envision a world where everyone can express their unique style through quality fashion that doesn't compromise on sustainability or accessibility. Our goal is to be the leading fashion destination that combines trendsetting designs with ethical practices.</p>
+        </div>
+    </section>
+
+    <!-- Values Section -->
+    <section class="values-section">
+        <div class="container">
+            <h2>Our Values</h2>
+            <div class="values-grid">
+                <div class="value-item">
+                    <div class="value-icon">🌟</div>
+                    <h3>Quality</h3>
+                    <p>We never compromise on quality. Every piece in our collection is carefully selected to ensure it meets our high standards for durability, comfort, and style.</p>
+                </div>
+                <div class="value-item">
+                    <div class="value-icon">🌱</div>
+                    <h3>Sustainability</h3>
+                    <p>We're committed to sustainable fashion practices, working with brands that prioritize eco-friendly materials and ethical manufacturing processes.</p>
+                </div>
+                <div class="value-item">
+                    <div class="value-icon">🤝</div>
+                    <h3>Community</h3>
+                    <p>We believe in building strong relationships with our customers, suppliers, and the local community. Your success is our success.</p>
+                </div>
+                <div class="value-item">
+                    <div class="value-icon">💡</div>
+                    <h3>Innovation</h3>
+                    <p>We constantly evolve and adapt to the latest fashion trends while maintaining our core values and commitment to customer satisfaction.</p>
+                </div>
+                <div class="value-item">
+                    <div class="value-icon">❤️</div>
+                    <h3>Customer First</h3>
+                    <p>Our customers are at the heart of everything we do. We strive to provide exceptional service and create memorable shopping experiences.</p>
+                </div>
+                <div class="value-item">
+                    <div class="value-icon">🎯</div>
+                    <h3>Accessibility</h3>
+                    <p>We believe fashion should be accessible to everyone, regardless of budget or background. We offer quality fashion at affordable prices.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="team-section">
+        <div class="container">
+            <h2>Meet Our Team</h2>
+            <p>Our dedicated team of fashion enthusiasts is here to help you discover your perfect style and make your shopping experience exceptional.</p>
+            <div class="team-grid">
+                <div class="team-member">
+                    <h3>Sarah Johnson</h3>
+                    <p>Founder & CEO</p>
+                </div>
+                <div class="team-member">
+                    <h3>Michael Johnson</h3>
+                    <p>Co-Founder & COO</p>
+                </div>
+                <div class="team-member">
+                    <h3>Emma Davis</h3>
+                    <p>Fashion Director</p>
+                </div>
+                <div class="team-member">
+                    <h3>David Wilson</h3>
+                    <p>Customer Experience Manager</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Fashion Store</h3>
+                    <p>Your one-stop destination for trendy fashion and accessories. Quality fashion at affordable prices.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul style="list-style: none; padding: 0;">
+                        <li><a href="products.html" style="color: white; text-decoration: none;">Products</a></li>
+                        <li><a href="about.html" style="color: white; text-decoration: none;">About Us</a></li>
+                        <li><a href="contact.html" style="color: white; text-decoration: none;">Contact</a></li>
+                        <li><a href="cart.html" style="color: white; text-decoration: none;">Cart</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact Info</h3>
+                    <p>📍 123 Fashion Street, Downtown District</p>
+                    <p>📧 info@fashionstore.com</p>
+                    <p>📞 +1 (555) 123-4567</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Follow Us</h3>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon" aria-label="Facebook">📘</a>
+                        <a href="#" class="social-icon" aria-label="Instagram">📷</a>
+                        <a href="#" class="social-icon" aria-label="Twitter">🐦</a>
+                        <a href="#" class="social-icon" aria-label="YouTube">📺</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Fashion Store. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html> 
